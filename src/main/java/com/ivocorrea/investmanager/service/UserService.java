@@ -5,8 +5,8 @@ import com.ivocorrea.investmanager.entity.User;
 import com.ivocorrea.investmanager.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
 import java.time.Instant;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -31,5 +31,8 @@ public class UserService {
             User postedUser = userRepository.save(Entity);
             return postedUser.getUserid();
     }
-}
 
+    public Optional<User> getUser(String userId){
+        return userRepository.findById(UUID.fromString(userId));
+    }
+}

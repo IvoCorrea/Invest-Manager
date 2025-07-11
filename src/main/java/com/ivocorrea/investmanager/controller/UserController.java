@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -26,7 +27,8 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<User> getUser(@PathVariable String userId){
-        return null;
+    public ResponseEntity<Optional<User>> getUserById(@PathVariable String userId){
+        Optional<User> user = userService.getUser(userId);
+        return ResponseEntity.ok(user);
     }
 }

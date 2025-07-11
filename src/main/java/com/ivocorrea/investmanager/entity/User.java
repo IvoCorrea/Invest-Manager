@@ -15,8 +15,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID userid;
 
+    @Column(unique = true, nullable = false)
     private String username;
+
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private String password;
 
     @CreationTimestamp
@@ -30,6 +35,7 @@ public class User {
     }
 
     public User(String username, String email, String password, Instant createdAt, Instant updatedAt) {
+        this.username = username;
         this.email = email;
         this.password = password;
         this.createdAt = createdAt;
