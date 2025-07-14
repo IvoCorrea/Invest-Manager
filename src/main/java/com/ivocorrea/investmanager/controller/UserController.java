@@ -1,6 +1,7 @@
 package com.ivocorrea.investmanager.controller;
 
 import com.ivocorrea.investmanager.controller.dto.CreateUserDto;
+import com.ivocorrea.investmanager.controller.dto.PutUserDto;
 import com.ivocorrea.investmanager.entity.User;
 import com.ivocorrea.investmanager.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -30,5 +31,17 @@ public class UserController {
     public ResponseEntity<Optional<User>> getUserById(@PathVariable String userId){
         Optional<User> user = userService.getUser(userId);
         return ResponseEntity.ok(user);
+    }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<Optional<User>> putUser(@PathVariable String userId, @RequestBody PutUserDto userDto) {
+        Optional<User> user = userService.putUser(userDto, userId);
+        return ResponseEntity.ok(user);
+    }
+
+    @DeleteMapping("{userID}")
+    public ResponseEntity<User> deleteUser(@PathVariable String userId) {
+
+        return null;
     }
 }
