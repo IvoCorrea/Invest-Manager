@@ -51,4 +51,14 @@ public class UserService {
 
         return Optional.of(userRepository.save(userUpdated));
     }
+
+    public void deleteUser(String userId) {
+        Optional<User> ExistingUser = userRepository.findById(UUID.fromString(userId));
+        if (ExistingUser.isEmpty()) {
+            throw new RuntimeException();
+        }
+        userRepository.deleteById(UUID.fromString(userId));
+
+    }
+
 }
