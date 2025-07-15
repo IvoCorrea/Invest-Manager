@@ -1,4 +1,4 @@
-package com.ivocorrea.investmanager.controller.dto;
+package com.ivocorrea.investmanager.dto;
 
 public record ErrorResponseDTO(String message, int status, String timestamp) {
 }

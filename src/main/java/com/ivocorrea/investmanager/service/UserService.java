@@ -1,7 +1,7 @@
 package com.ivocorrea.investmanager.service;
 
-import com.ivocorrea.investmanager.controller.dto.CreateUserDto;
-import com.ivocorrea.investmanager.controller.dto.PutUserDto;
+import com.ivocorrea.investmanager.dto.CreateUserDto;
+import com.ivocorrea.investmanager.dto.PutUserDto;
 import com.ivocorrea.investmanager.entity.User;
 import com.ivocorrea.investmanager.exception.UserExceptionHandler;
 import com.ivocorrea.investmanager.repository.UserRepository;
