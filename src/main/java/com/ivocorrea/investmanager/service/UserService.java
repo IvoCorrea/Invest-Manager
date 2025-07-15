@@ -3,6 +3,7 @@ package com.ivocorrea.investmanager.service;
 import com.ivocorrea.investmanager.controller.dto.CreateUserDto;
 import com.ivocorrea.investmanager.controller.dto.PutUserDto;
 import com.ivocorrea.investmanager.entity.User;
+import com.ivocorrea.investmanager.exception.UserExceptionHandler;
 import com.ivocorrea.investmanager.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,10 @@ public class UserService {
     }
 
     public Optional<User> getUser(String userId) {
+        Optional<User> ExistingUser = userRepository.findById(UUID.fromString(userId));
+        if (ExistingUser.isEmpty()) {
+            throw new UserExceptionHandler.NotFoundException();
+        }
         return userRepository.findById(UUID.fromString(userId));
     }
 
@@ -41,7 +46,7 @@ public class UserService {
 
         Optional<User> ExistingUser = userRepository.findById(UUID.fromString(userId));
         if (ExistingUser.isEmpty()) {
-            return Optional.empty();
+            throw new UserExceptionHandler.NotFoundException();
         }
 
         // Get = Optional
@@ -55,10 +60,8 @@ public class UserService {
     public void deleteUser(String userId) {
         Optional<User> ExistingUser = userRepository.findById(UUID.fromString(userId));
         if (ExistingUser.isEmpty()) {
-            throw new RuntimeException();
+            throw new UserExceptionHandler.NotFoundException();
         }
         userRepository.deleteById(UUID.fromString(userId));
-
     }
-
 }
