@@ -24,6 +24,9 @@ public class Portfolio {
     @CreationTimestamp
     private Instant createdAt;
 
+    public Portfolio() {
+    }
+
     public Portfolio(User user, List<Asset> assets, Instant createdAt) {
         this.user = user;
         this.assets = assets;
