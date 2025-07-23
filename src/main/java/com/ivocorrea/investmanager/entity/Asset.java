@@ -13,7 +13,7 @@ public class Asset {
     private UUID assetId;
 
     @Column(nullable = false)
-    private String name;
+    private String ticker;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -29,8 +29,11 @@ public class Asset {
     @JoinColumn(name = "portfolio_id", nullable = false)
     private Portfolio portfolio;
 
-    public Asset(String name, AssetTypeEnum type, int quantity, double currentPrice, Portfolio portfolio) {
-        this.name = name;
+    public Asset() {
+    }
+
+    public Asset(String ticker, AssetTypeEnum type, int quantity, double currentPrice, Portfolio portfolio) {
+        this.ticker = ticker;
         this.type = type;
         this.quantity = quantity;
         this.currentPrice = currentPrice;
@@ -45,12 +48,12 @@ public class Asset {
         this.assetId = assetId;
     }
 
-    public String getName() {
-        return name;
+    public String getTicker() {
+        return ticker;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTicker(String ticker) {
+        this.ticker = ticker;
     }
 
     public AssetTypeEnum getType() {
