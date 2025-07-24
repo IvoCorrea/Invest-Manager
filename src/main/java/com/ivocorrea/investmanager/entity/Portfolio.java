@@ -1,9 +1,11 @@
 package com.ivocorrea.investmanager.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,7 +21,8 @@ public class Portfolio {
     private User user;
 
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Asset> assets;
+    @JsonManagedReference
+    private List<Asset> assets = new ArrayList<>();
 
     @CreationTimestamp
     private Instant createdAt;
@@ -55,6 +58,12 @@ public class Portfolio {
 
     public void setAssets(List<Asset> assets) {
         this.assets = assets;
+    }
+
+    //Add a new asset in the arrayList
+    public void addNewAsset(Asset asset) {
+        asset.setPortfolio(this);
+        this.assets.add(asset);
     }
 
     public Instant getCreatedAt() {

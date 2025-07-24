@@ -1,5 +1,6 @@
 package com.ivocorrea.investmanager.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.ivocorrea.investmanager.entity.Enum.AssetTypeEnum;
 import jakarta.persistence.*;
 
@@ -27,6 +28,7 @@ public class Asset {
 
     @ManyToOne
     @JoinColumn(name = "portfolio_id", nullable = false)
+    @JsonBackReference
     private Portfolio portfolio;
 
     public Asset() {
