@@ -21,47 +21,50 @@ public class UserService {
     }
 
     public UUID createUser(CreateUserDto userDto) {
-
-        // DTO => Entity
-        var EntityUser = new User(
-                userDto.username(),
-                userDto.email(),
-                userDto.password(),
-                Instant.now(),
-                null);
-
-        User postedUser = userRepository.save(EntityUser);
-        return postedUser.getUserid();
-    }
-
-    public Optional<User> getUser(String userId) {
-        Optional<User> ExistingUser = userRepository.findById(UUID.fromString(userId));
-        if (ExistingUser.isEmpty()) {
-            throw new UserExceptionHandler.NotFoundException();
+        if (userRepository.existsByEmail(userDto.email())) {
+            throw new IllegalArgumentException("Email Already Registered");
         }
-        return userRepository.findById(UUID.fromString(userId));
-    }
-
-    public Optional<User> putUser(PutUserDto userDto, String userId) {
-
-        Optional<User> ExistingUser = userRepository.findById(UUID.fromString(userId));
-        if (ExistingUser.isEmpty()) {
-            throw new UserExceptionHandler.NotFoundException();
+        if (userRepository.existsByUsername(userDto.username())) {
+            throw new IllegalArgumentException("Email Already Registered");
         }
 
-        // Get = Optional
-        User userUpdated = ExistingUser.get();
-        userUpdated.setUsername(userDto.username());
-        userUpdated.setEmail(userDto.email());
+        try {
+            // DTO => Entity
+            var EntityUser = new User(
+                    userDto.username(),
+                    userDto.email(),
+                    userDto.password(),
+                    Instant.now(),
+                    null);
 
-        return Optional.of(userRepository.save(userUpdated));
+            User postedUser = userRepository.save(EntityUser);
+            return postedUser.getUserid();
+        } catch (RuntimeException e) {
+            throw new UserExceptionHandler.NotFoundException("User not found");
+        }
+    }
+
+    public User getUser(String userId) {
+        return userRepository.findById(UUID.fromString(userId))
+                .orElseThrow(() -> new UserExceptionHandler.NotFoundException("User not found"));
+    }
+
+    public User putUser(PutUserDto userDto, String userId) {
+
+        User ExistingUser = userRepository.findById(UUID.fromString(userId))
+                .orElseThrow(() -> new UserExceptionHandler.NotFoundException("User not found"));
+
+        ExistingUser.setUsername(userDto.username());
+        ExistingUser.setEmail(userDto.email());
+
+        return userRepository.save(ExistingUser);
     }
 
     public void deleteUser(String userId) {
-        Optional<User> ExistingUser = userRepository.findById(UUID.fromString(userId));
-        if (ExistingUser.isEmpty()) {
-            throw new UserExceptionHandler.NotFoundException();
+        try {
+            userRepository.deleteById(UUID.fromString(userId));
+        } catch (RuntimeException e) {
+            throw new UserExceptionHandler.NotFoundException("User not found");
         }
-        userRepository.deleteById(UUID.fromString(userId));
     }
 }

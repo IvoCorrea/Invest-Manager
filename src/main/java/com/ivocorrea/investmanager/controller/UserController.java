@@ -28,14 +28,14 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<Optional<User>> getUserById(@PathVariable String userId){
-        Optional<User> user = userService.getUser(userId);
+    public ResponseEntity<User> getUserById(@PathVariable String userId){
+        User user = userService.getUser(userId);
         return ResponseEntity.ok(user);
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<Optional<User>> putUser(@PathVariable String userId, @RequestBody PutUserDto userDto) {
-        Optional<User> user = userService.putUser(userDto, userId);
+    public ResponseEntity<User> putUser(@PathVariable String userId, @RequestBody PutUserDto userDto) {
+        User user = userService.putUser(userDto, userId);
         return ResponseEntity.ok(user);
     }
 

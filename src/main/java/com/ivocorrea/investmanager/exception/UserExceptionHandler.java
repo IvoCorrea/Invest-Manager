@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 public class UserExceptionHandler {
 
     public static class NotFoundException extends RuntimeException {
-        public NotFoundException() {
-            super("User not found");
+        public NotFoundException(String message) {
+            super(message);
         }
     }
 
