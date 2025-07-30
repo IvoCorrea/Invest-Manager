@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -32,6 +33,10 @@ public class PortfolioService {
     public Portfolio getPortfolioById(String portfolioId) {
         return portfolioRepository.findById(UUID.fromString(portfolioId))
                 .orElseThrow(() -> new RuntimeException("Portfolio Not Found"));
+    }
+
+    public List<Portfolio> getAllPortfolios() {
+        return portfolioRepository.findAll();
     }
 
     public UUID createPortfolio(CreatePortfolioDTO portfolioDTO) {

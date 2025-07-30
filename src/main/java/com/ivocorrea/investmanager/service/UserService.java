@@ -8,6 +8,7 @@ import com.ivocorrea.investmanager.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -47,6 +48,10 @@ public class UserService {
     public User getUser(String userId) {
         return userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() -> new UserExceptionHandler.NotFoundException("User not found"));
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
     public User putUser(PutUserDto userDto, String userId) {

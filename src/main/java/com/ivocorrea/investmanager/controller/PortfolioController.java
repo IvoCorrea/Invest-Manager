@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -33,6 +34,12 @@ public class PortfolioController {
     public ResponseEntity<Portfolio> getPortfolioById(@PathVariable String portfolioId) {
         Portfolio portfolio = portfolioService.getPortfolioById(portfolioId);
         return ResponseEntity.ok(portfolio);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Portfolio>> getAllPortfolios() {
+        List<Portfolio> portfolioList = portfolioService.getAllPortfolios();
+        return ResponseEntity.ok(portfolioList);
     }
 
     @DeleteMapping("/{portfolioId}")
