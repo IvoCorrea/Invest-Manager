@@ -2,6 +2,7 @@ package com.ivocorrea.investmanager.controller;
 
 import com.ivocorrea.investmanager.dto.AddAssetDTO;
 import com.ivocorrea.investmanager.dto.CreatePortfolioDTO;
+import com.ivocorrea.investmanager.dto.PutAssetDTO;
 import com.ivocorrea.investmanager.entity.Asset;
 import com.ivocorrea.investmanager.entity.Portfolio;
 import com.ivocorrea.investmanager.service.PortfolioService;
@@ -29,8 +30,8 @@ public class PortfolioController {
     }
 
     @GetMapping("/{portfolioId}")
-    public ResponseEntity<Optional<Portfolio>> getPortfolioById(@PathVariable String portfolioId) {
-        Optional<Portfolio> portfolio = portfolioService.getPortfolioById(portfolioId);
+    public ResponseEntity<Portfolio> getPortfolioById(@PathVariable String portfolioId) {
+        Portfolio portfolio = portfolioService.getPortfolioById(portfolioId);
         return ResponseEntity.ok(portfolio);
     }
 
@@ -47,6 +48,16 @@ public class PortfolioController {
     ) {
         Portfolio portfolio = portfolioService.addAssetToPortfolio(addAssetDTO, portfolioId);
         return ResponseEntity.ok(portfolio);
+    }
+
+    @PatchMapping("/{portfolioId}/asset/{assetId}")
+    public ResponseEntity<Asset> updateAsset(
+            @RequestBody PutAssetDTO putAssetDTO,
+            @PathVariable String portfolioId,
+            @PathVariable String assetId
+    ) {
+        Asset asset = portfolioService.updateAsset(putAssetDTO, portfolioId, assetId);
+        return ResponseEntity.ok(asset);
     }
 
     @DeleteMapping("/{portfolioId}/asset/{assetId}")
