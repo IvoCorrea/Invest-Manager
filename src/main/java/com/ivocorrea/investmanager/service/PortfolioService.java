@@ -2,6 +2,7 @@ package com.ivocorrea.investmanager.service;
 
 import com.ivocorrea.investmanager.dto.AddAssetDTO;
 import com.ivocorrea.investmanager.dto.CreatePortfolioDTO;
+import com.ivocorrea.investmanager.dto.PutAssetDTO;
 import com.ivocorrea.investmanager.entity.Asset;
 import com.ivocorrea.investmanager.entity.Portfolio;
 import com.ivocorrea.investmanager.entity.User;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -29,8 +29,9 @@ public class PortfolioService {
         this.assetRepository = assetRepository;
     }
 
-    public Optional<Portfolio> getPortfolioById(String portfolioId) {
-        return portfolioRepository.findById(UUID.fromString(portfolioId));
+    public Portfolio getPortfolioById(String portfolioId) {
+        return portfolioRepository.findById(UUID.fromString(portfolioId))
+                .orElseThrow(() -> new RuntimeException("Portfolio Not Found"));
     }
 
     public UUID createPortfolio(CreatePortfolioDTO portfolioDTO) {
@@ -63,6 +64,24 @@ public class PortfolioService {
         portfolioToBePut.addNewAsset(newAsset);
 
         return portfolioRepository.save(portfolioToBePut);
+    }
+
+    public Asset updateAsset(PutAssetDTO putAssetDTO, String portfolioId, String assetId) {
+        Asset assetToBeUpdated = assetRepository.findById(UUID.fromString(assetId))
+                .orElseThrow(() -> new RuntimeException("Asset Not Found"));
+
+        if (!assetToBeUpdated.getPortfolio().getPortfolioId().equals(UUID.fromString(portfolioId))) {
+            throw new IllegalArgumentException("Asset does not belong to the specified portfolio");
+        }
+
+        try {
+            assetToBeUpdated.setQuantity(putAssetDTO.quantity());
+            assetToBeUpdated.setCurrentPrice(putAssetDTO.currentPrice());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Illegal Arguments");
+        }
+
+        return assetRepository.save(assetToBeUpdated);
     }
 
     public void deletePortfolio(String portfolioId) {
