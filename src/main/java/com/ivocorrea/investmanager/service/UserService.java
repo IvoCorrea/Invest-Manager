@@ -5,20 +5,22 @@ import com.ivocorrea.investmanager.dto.PutUserDto;
 import com.ivocorrea.investmanager.entity.User;
 import com.ivocorrea.investmanager.exception.UserExceptionHandler;
 import com.ivocorrea.investmanager.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public UUID createUser(CreateUserDto userDto) {
@@ -34,7 +36,7 @@ public class UserService {
             var EntityUser = new User(
                     userDto.username(),
                     userDto.email(),
-                    userDto.password(),
+                    passwordEncoder.encode(userDto.password()),
                     Instant.now(),
                     null);
 
