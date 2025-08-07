@@ -31,9 +31,9 @@ public class JwtService {
 
     public String extractEmail(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(jwtSecret.getBytes())
+                .setSigningKey(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
                 .build()
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
     }
