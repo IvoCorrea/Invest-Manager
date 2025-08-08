@@ -1,16 +1,12 @@
 package com.ivocorrea.investmanager.controller;
 
-import com.ivocorrea.investmanager.dto.CreateUserDto;
 import com.ivocorrea.investmanager.dto.PutUserDto;
 import com.ivocorrea.investmanager.entity.User;
 import com.ivocorrea.investmanager.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/user")
@@ -20,12 +16,6 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
-    }
-
-    @PostMapping
-    public ResponseEntity<User> postUser(@RequestBody CreateUserDto userDto) {
-        UUID userId = userService.createUser(userDto);
-        return ResponseEntity.created(URI.create("/user/" + userId.toString())).build();
     }
 
     @GetMapping("/{userId}")
