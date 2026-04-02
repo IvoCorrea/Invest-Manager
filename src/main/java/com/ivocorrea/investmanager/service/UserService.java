@@ -28,11 +28,11 @@ public class UserService {
             throw new IllegalArgumentException("Email Already Registered");
         }
         if (userRepository.existsByUsername(userDto.username())) {
-            throw new IllegalArgumentException("Email Already Registered");
+            throw new IllegalArgumentException("Username Already Registered");
         }
 
         try {
-            // DTO => Entity
+            // DTO → Entity
             var EntityUser = new User(
                     userDto.username(),
                     userDto.email(),

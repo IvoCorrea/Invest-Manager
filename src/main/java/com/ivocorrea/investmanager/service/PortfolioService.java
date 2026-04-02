@@ -42,7 +42,7 @@ public class PortfolioService {
     public UUID createPortfolio(CreatePortfolioDTO portfolioDTO) {
 
         User user = userRepository.findById(portfolioDTO.userId())
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         Portfolio portfolioEntity = new Portfolio();
         portfolioEntity.setUser(user);
@@ -57,7 +57,7 @@ public class PortfolioService {
     public Portfolio addAssetToPortfolio(AddAssetDTO assetDTO, String portfolioId) {
 
         Portfolio portfolioToBePut = portfolioRepository.findById(UUID.fromString(portfolioId))
-                .orElseThrow(() -> new RuntimeException("Portfolio nao encontrado"));
+                .orElseThrow(() -> new RuntimeException("Portfolio not found"));
 
         Asset newAsset = new Asset();
         newAsset.setTicker(assetDTO.ticker());
