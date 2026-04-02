@@ -11,11 +11,10 @@ import java.util.Date;
 
 @Service
 public class JwtService {
+
     private final String jwtSecret;
 
-    public JwtService(
-            @Value("${jwt.secret}") String jwtSecret
-    ) {
+    public JwtService(@Value("${jwt.secret}") String jwtSecret) {
         this.jwtSecret = jwtSecret;
     }
 
@@ -24,7 +23,7 @@ public class JwtService {
                 .setSubject(user.getEmail())
                 .claim("username", user.getUsername())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1hr
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 15)) // 15min
                 .signWith(Keys.hmacShaKeyFor(jwtSecret.getBytes()), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -36,5 +35,19 @@ public class JwtService {
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
+    }
+
+    public boolean isTokenValid(String token) {
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
