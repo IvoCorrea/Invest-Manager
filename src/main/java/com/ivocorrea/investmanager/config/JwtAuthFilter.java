@@ -33,19 +33,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader("Authorization");
 
-        String path = request.getServletPath();
-        if (path.startsWith("/auth")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
         String token = authHeader.substring(7);
-        String userEmail = jwtService.extractEmail(token);
+        String userEmail = jwtService.extractEmailIgnoringExpiration(token);
 
         if (userEmail != null &&
                 SecurityContextHolder.getContext().getAuthentication() == null &&
