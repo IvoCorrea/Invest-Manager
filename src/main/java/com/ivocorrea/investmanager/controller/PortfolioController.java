@@ -1,14 +1,12 @@
 package com.ivocorrea.investmanager.controller;
 
-import com.ivocorrea.investmanager.dto.AddAssetDTO;
-import com.ivocorrea.investmanager.dto.CreatePortfolioDTO;
-import com.ivocorrea.investmanager.dto.PutAssetDTO;
+import com.ivocorrea.investmanager.dto.asset.AddAssetDTO;
+import com.ivocorrea.investmanager.dto.asset.PutAssetDTO;
 import com.ivocorrea.investmanager.entity.Asset;
 import com.ivocorrea.investmanager.entity.Portfolio;
 import com.ivocorrea.investmanager.entity.User;
 import com.ivocorrea.investmanager.service.PortfolioService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 

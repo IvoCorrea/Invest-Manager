@@ -1,4 +1,4 @@
-package com.ivocorrea.investmanager.dto;
+package com.ivocorrea.investmanager.dto.asset;
 
 import com.ivocorrea.investmanager.entity.Enum.AssetTypeEnum;
 

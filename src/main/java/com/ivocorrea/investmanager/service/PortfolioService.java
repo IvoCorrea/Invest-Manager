@@ -1,7 +1,7 @@
 package com.ivocorrea.investmanager.service;
 
-import com.ivocorrea.investmanager.dto.AddAssetDTO;
-import com.ivocorrea.investmanager.dto.PutAssetDTO;
+import com.ivocorrea.investmanager.dto.asset.AddAssetDTO;
+import com.ivocorrea.investmanager.dto.asset.PutAssetDTO;
 import com.ivocorrea.investmanager.entity.Asset;
 import com.ivocorrea.investmanager.entity.Portfolio;
 import com.ivocorrea.investmanager.entity.User;

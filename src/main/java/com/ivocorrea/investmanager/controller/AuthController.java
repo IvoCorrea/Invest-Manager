@@ -1,12 +1,11 @@
 package com.ivocorrea.investmanager.controller;
 
-import com.ivocorrea.investmanager.dto.CreateUserDto;
-import com.ivocorrea.investmanager.dto.LoginRequestDTO;
-import com.ivocorrea.investmanager.dto.LoginResponseDTO;
+import com.ivocorrea.investmanager.dto.user.CreateUserDto;
+import com.ivocorrea.investmanager.dto.login.LoginRequestDTO;
+import com.ivocorrea.investmanager.dto.login.LoginResponseDTO;
 import com.ivocorrea.investmanager.dto.RefreshRequestDTO;
 import com.ivocorrea.investmanager.entity.User;
 import com.ivocorrea.investmanager.service.AuthService;
-import com.ivocorrea.investmanager.service.RefreshTokenService;
 import com.ivocorrea.investmanager.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

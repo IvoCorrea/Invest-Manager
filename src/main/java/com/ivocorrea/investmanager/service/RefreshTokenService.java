@@ -1,6 +1,5 @@
 package com.ivocorrea.investmanager.service;
 
-import com.ivocorrea.investmanager.dto.LoginResponseDTO;
 import com.ivocorrea.investmanager.entity.RefreshToken;
 import com.ivocorrea.investmanager.entity.User;
 import com.ivocorrea.investmanager.repository.RefreshTokenRepository;
