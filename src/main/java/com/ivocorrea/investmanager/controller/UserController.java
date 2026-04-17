@@ -1,9 +1,10 @@
 package com.ivocorrea.investmanager.controller;
 
-import com.ivocorrea.investmanager.dto.PutUserDto;
+import com.ivocorrea.investmanager.dto.user.PutUserDto;
 import com.ivocorrea.investmanager.entity.User;
 import com.ivocorrea.investmanager.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,8 +20,11 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable String userId){
-        User user = userService.getUser(userId);
+    public ResponseEntity<User> getUserById(
+            @PathVariable String userId,
+            @AuthenticationPrincipal User userLogged
+    ){
+        User user = userService.getUser(userId, userLogged.getUserid());
         return ResponseEntity.ok(user);
     }
 
@@ -31,14 +35,21 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<User> putUser(@PathVariable String userId, @RequestBody PutUserDto userDto) {
-        User user = userService.putUser(userDto, userId);
+    public ResponseEntity<User> putUser(
+            @PathVariable String userId,
+            @RequestBody PutUserDto userDto,
+            @AuthenticationPrincipal User userLogged
+    ) {
+        User user = userService.putUser(userDto, userId, userLogged.getUserid());
         return ResponseEntity.ok(user);
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable String userId) {
-        userService.deleteUser(userId);
+    public ResponseEntity<Void> deleteUser(
+            @PathVariable String userId,
+            @AuthenticationPrincipal User userLogged
+    ) {
+        userService.deleteUser(userId, userLogged.getUserid());
         return ResponseEntity.noContent().build();
     }
 }

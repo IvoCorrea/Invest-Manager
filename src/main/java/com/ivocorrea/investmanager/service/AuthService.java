@@ -1,11 +1,10 @@
 package com.ivocorrea.investmanager.service;
 
-import com.ivocorrea.investmanager.dto.LoginRequestDTO;
-import com.ivocorrea.investmanager.dto.LoginResponseDTO;
+import com.ivocorrea.investmanager.dto.login.LoginRequestDTO;
+import com.ivocorrea.investmanager.dto.login.LoginResponseDTO;
 import com.ivocorrea.investmanager.entity.User;
 import com.ivocorrea.investmanager.exception.UserExceptionHandler;
 import com.ivocorrea.investmanager.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

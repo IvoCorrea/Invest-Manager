@@ -1,7 +1,7 @@
 package com.ivocorrea.investmanager.service;
 
-import com.ivocorrea.investmanager.dto.AddAssetDTO;
-import com.ivocorrea.investmanager.dto.PutAssetDTO;
+import com.ivocorrea.investmanager.dto.asset.AddAssetDTO;
+import com.ivocorrea.investmanager.dto.asset.PutAssetDTO;
 import com.ivocorrea.investmanager.entity.Asset;
 import com.ivocorrea.investmanager.entity.Portfolio;
 import com.ivocorrea.investmanager.entity.User;
@@ -114,7 +114,7 @@ public class PortfolioService {
         Portfolio portfolio = portfolioRepository.findById(UUID.fromString(portfolioId))
                 .orElseThrow(() -> new EntityNotFoundException("Portfolio not Found"));
 
-        Asset asset = assetRepository.findById(UUID.fromString(assetId))
+          Asset asset = assetRepository.findById(UUID.fromString(assetId))
                 .orElseThrow(() -> new EntityNotFoundException("Asset not found"));
 
         if (!asset.getPortfolio().getPortfolioId().equals(portfolio.getPortfolioId())) {
