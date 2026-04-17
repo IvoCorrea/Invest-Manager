@@ -114,7 +114,7 @@ public class PortfolioService {
         Portfolio portfolio = portfolioRepository.findById(UUID.fromString(portfolioId))
                 .orElseThrow(() -> new EntityNotFoundException("Portfolio not Found"));
 
-        Asset asset = assetRepository.findById(UUID.fromString(assetId))
+          Asset asset = assetRepository.findById(UUID.fromString(assetId))
                 .orElseThrow(() -> new EntityNotFoundException("Asset not found"));
 
         if (!asset.getPortfolio().getPortfolioId().equals(portfolio.getPortfolioId())) {
