@@ -20,17 +20,15 @@ import java.util.UUID;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final UserService userService;
     private final AuthService authService;
 
-    public AuthController(UserService userService, AuthService authService) {
-        this.userService = userService;
+    public AuthController(AuthService authService) {
         this.authService = authService;
     }
 
     @PostMapping("/register")
     public ResponseEntity<User> registerUser(@RequestBody CreateUserDto userDto) {
-        UUID userId = userService.createUser(userDto);
+        UUID userId = authService.register(userDto);
         return ResponseEntity.created(URI.create("/user/" + userId.toString())).build();
     }
 

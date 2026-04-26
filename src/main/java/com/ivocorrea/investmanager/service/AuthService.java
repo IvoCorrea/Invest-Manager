@@ -2,11 +2,15 @@ package com.ivocorrea.investmanager.service;
 
 import com.ivocorrea.investmanager.dto.login.LoginRequestDTO;
 import com.ivocorrea.investmanager.dto.login.LoginResponseDTO;
+import com.ivocorrea.investmanager.dto.user.CreateUserDto;
 import com.ivocorrea.investmanager.entity.User;
 import com.ivocorrea.investmanager.exception.UserExceptionHandler;
 import com.ivocorrea.investmanager.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.util.UUID;
 
 @Service
 public class AuthService {
@@ -30,19 +34,43 @@ public class AuthService {
             throw new IllegalArgumentException("Invalid Password");
         }
 
-        String acessToken = jwtService.generateToken(user);
+        String accessToken = jwtService.generateToken(user);
         String refreshToken = refreshTokenService.createRefreshToken(user);
 
-        return new LoginResponseDTO(acessToken, refreshToken);
+        return new LoginResponseDTO(accessToken, refreshToken);
     }
 
     public LoginResponseDTO authRefresh(String token) {
         if (!refreshTokenService.isRefreshTokenValid(token)) throw new RuntimeException("Token not valid");
 
-        String acessToken = jwtService.generateToken(refreshTokenService.findbyToken(token).getUser());
+        String accessToken = jwtService.generateToken(refreshTokenService.findbyToken(token).getUser());
         String rotatedRefreshToken = refreshTokenService.rotateRefreshToken(token);
 
 
-        return new LoginResponseDTO(acessToken, rotatedRefreshToken);
+        return new LoginResponseDTO(accessToken, rotatedRefreshToken);
+    }
+
+    public UUID register(CreateUserDto userDto) {
+        if (userRepository.existsByEmail(userDto.email())) {
+            throw new IllegalArgumentException("Email Already Registered");
+        }
+        if (userRepository.existsByUsername(userDto.username())) {
+            throw new IllegalArgumentException("Username Already Registered");
+        }
+
+        try {
+            // DTO → Entity
+            var EntityUser = new User(
+                    userDto.username(),
+                    userDto.email(),
+                    passwordEncoder.encode(userDto.password()),
+                    Instant.now(),
+                    null);
+
+            User postedUser = userRepository.save(EntityUser);
+            return postedUser.getUserid();
+        } catch (RuntimeException e) {
+            throw new UserExceptionHandler.NotFoundException("User not found");
+        }
     }
 }
