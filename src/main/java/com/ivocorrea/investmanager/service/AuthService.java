@@ -50,7 +50,7 @@ public class AuthService {
         return new LoginResponseDTO(accessToken, rotatedRefreshToken);
     }
 
-    public UUID register(CreateUserDto userDto) {
+    public LoginResponseDTO register(CreateUserDto userDto) {
         if (userRepository.existsByEmail(userDto.email())) {
             throw new IllegalArgumentException("Email Already Registered");
         }
@@ -60,15 +60,19 @@ public class AuthService {
 
         try {
             // DTO → Entity
-            var EntityUser = new User(
+            User EntityUser = new User(
                     userDto.username(),
                     userDto.email(),
                     passwordEncoder.encode(userDto.password()),
                     Instant.now(),
                     null);
 
-            User postedUser = userRepository.save(EntityUser);
-            return postedUser.getUserid();
+            userRepository.save(EntityUser);
+
+            String accessToken = jwtService.generateToken(EntityUser);
+            String refreshToken = refreshTokenService.createRefreshToken(EntityUser);
+
+            return new LoginResponseDTO(accessToken, refreshToken);
         } catch (RuntimeException e) {
             throw new UserExceptionHandler.NotFoundException("User not found");
         }

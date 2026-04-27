@@ -6,7 +6,7 @@ import com.ivocorrea.investmanager.dto.login.LoginResponseDTO;
 import com.ivocorrea.investmanager.dto.RefreshRequestDTO;
 import com.ivocorrea.investmanager.entity.User;
 import com.ivocorrea.investmanager.service.AuthService;
-import com.ivocorrea.investmanager.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,9 +27,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody CreateUserDto userDto) {
-        UUID userId = authService.register(userDto);
-        return ResponseEntity.created(URI.create("/user/" + userId.toString())).build();
+    public ResponseEntity<LoginResponseDTO> registerUser(@RequestBody CreateUserDto userDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(userDto));
     }
 
     @PostMapping("/login")
